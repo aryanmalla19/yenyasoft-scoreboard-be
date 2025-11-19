@@ -17,6 +17,16 @@ class League extends Model
         'is_active',
     ];
 
+    protected $casts = [
+        'name' => 'string',
+        'logo' => 'string',
+        'description' => 'string',
+        'duration' => 'int',
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'is_active' => 'bool',
+    ];
+
     public function teams(): HasMany
     {
         return $this->hasMany(Team::class);
