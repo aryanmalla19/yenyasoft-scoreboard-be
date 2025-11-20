@@ -53,9 +53,19 @@ readonly class LeagueService
         ]);
     }
 
-    public function getLeagueTeams(League $league)
+    public function getTeams(League $league)
     {
         return Team::where('league_id', $league->id)
             ->simplePaginate(10);
+    }
+
+    public function storeTeam(array $data, League $league): Team
+    {
+        return $league->teams()->create($data);
+    }
+
+    public function updateTeam(array $data, Team $team): bool
+    {
+        return $team->update($data);
     }
 }

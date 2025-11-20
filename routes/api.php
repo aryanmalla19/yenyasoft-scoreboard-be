@@ -14,8 +14,14 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::apiResource('leagues', LeagueController::class)
     ->names('leagues');
 
+Route::get('leagues/active', [LeagueController::class, 'active'])
+    ->name('leagues.active');
+
 Route::apiResource('players', PlayerController::class)
     ->names('players');
+
+Route::get('players/available', [PlayerController::class, 'available'])
+    ->name('players.available');
 
 // Teams
 Route::get('leagues/{league}/teams', [TeamController::class, 'index'])
@@ -24,6 +30,12 @@ Route::get('leagues/{league}/teams', [TeamController::class, 'index'])
 Route::post('leagues/{league}/teams', [TeamController::class, 'store'])
     ->name('leagues.teams.store');
 
+Route::put('teams/{team}', [TeamController::class, 'update'])
+    ->name('teams.update');
+
+Route::get('teams/{team}', [TeamController::class, 'show'])
+    ->name('team.show');
+
 // Match
 Route::get('match/current', [MatchController::class, 'current'])
     ->name('leagues.matches.current');
@@ -31,14 +43,14 @@ Route::get('match/current', [MatchController::class, 'current'])
 Route::post('match/start', [MatchController::class, 'store'])
     ->name('leagues.matches.start');
 
-Route::patch('match/{match}/goal', [MatchController::class, 'current'])
+Route::patch('match/{match}/goal', [MatchController::class, 'goal'])
     ->name('leagues.matches.start');
 
-Route::patch('match/{match}/foul', [MatchController::class, 'current'])
+Route::patch('match/{match}/foul', [MatchController::class, 'foul'])
     ->name('leagues.matches.start');
 
-Route::patch('match/{match}/halftime', [MatchController::class, 'current'])
+Route::patch('match/{match}/halftime', [MatchController::class, 'halftime'])
     ->name('leagues.matches.start');
 
-Route::patch('match/{match}/end', [MatchController::class, 'current'])
+Route::patch('match/{match}/end', [MatchController::class, 'end'])
     ->name('leagues.matches.start');

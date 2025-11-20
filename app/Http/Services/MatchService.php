@@ -16,6 +16,11 @@ readonly class MatchService
             ->get();
     }
 
+    public function store(array $data): MatchModal
+    {
+        return MatchModal::create($data);
+    }
+
     public function goal(MatchModal $match, array $data): MatchModal
     {
         return $match->events()->create([
