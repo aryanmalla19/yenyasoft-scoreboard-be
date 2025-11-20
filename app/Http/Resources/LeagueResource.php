@@ -15,13 +15,15 @@ class LeagueResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'logo' => !empty($this?->logo) ? asset($this->logo) : null,
             'description' => $this?->description ?? null,
             'duration_months' => $this->duration,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
+            'start_date' => $this->start_date->toDateString(),
+            'end_date' => $this->end_date->toDateString(),
             'is_active' => $this->is_active,
+            'teams' => TeamResource::collection($this->whenLoaded('teams')),
         ];
     }
 }
