@@ -12,6 +12,7 @@ class Player extends Model
         'name',
         'total_goals',
         'total_fouls',
+        'team_id',
     ];
 
     public function team(): BelongsTo
