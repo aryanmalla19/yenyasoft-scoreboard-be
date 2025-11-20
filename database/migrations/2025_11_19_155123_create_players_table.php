@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('total_goals')->default(0);
             $table->integer('total_fouls')->default(0);
+            $table->foreignId('team_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
