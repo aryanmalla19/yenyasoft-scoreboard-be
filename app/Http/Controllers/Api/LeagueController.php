@@ -29,9 +29,16 @@ class LeagueController extends Controller
     public function store(StoreLeagueRequest $request)
     {
         $data = $request->validated();
-        $league = $this->leagueService->create($data);
+        try {
+            $league = $this->leagueService->create($data);
 
-        return new LeagueResource($league);
+            return new LeagueResource($league);
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => 'Something went wrong.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -39,7 +46,7 @@ class LeagueController extends Controller
      */
     public function show(League $league)
     {
-        return new LeagueResource($league);
+        return new LeagueResource($league->load('teams'));
     }
 
     /**

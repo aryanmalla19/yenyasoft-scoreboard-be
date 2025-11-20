@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Services;
 
 use App\Models\League;
+use App\Models\Team;
 
-class LeagueService
+readonly class LeagueService
 {
+    public function __construct(protected TeamService $teamService)
+    {}
+
     public function getAll()
     {
         return League::simplePaginate(10);
@@ -47,5 +51,11 @@ class LeagueService
         return $league->update([
             'is_active' => false,
         ]);
+    }
+
+    public function getLeagueTeams(League $league)
+    {
+        return Team::where('league_id', $league->id)
+            ->simplePaginate(10);
     }
 }
