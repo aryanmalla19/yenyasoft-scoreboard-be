@@ -22,7 +22,9 @@ class UpdateTeamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'logo' => 'nullable|sometimes|file|mimes:jpg,png,webp,jpeg|size:2048',
+            'league_id' => 'nullable|sometimes|exists:leagues,id',
         ];
     }
 }

@@ -22,7 +22,8 @@ class StorePlayerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'team_id' => 'nullable|exists:teams,id',
         ];
     }
 }
