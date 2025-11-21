@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum MatchEventType: string
 {
+    case MATCH_START = "match_start";
     case GOAL = "goal";
     case FOUL = "foul";
     case YELLOW_CARD = "yellow_card";
