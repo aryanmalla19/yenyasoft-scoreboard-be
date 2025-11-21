@@ -24,8 +24,8 @@ class DashboardController extends Controller
         $leagues = League::get();
 
         return $this->customResponse([
-            'live-matches' => MatchResource::collection($liveMatches),
-            'upcoming-matches' => MatchResource::collection($upcomingMatches),
+            'live_matches' => MatchResource::collection($liveMatches),
+            'upcoming_matches' => MatchResource::collection($upcomingMatches),
             'leagues' => LeagueResource::collection($leagues),
         ]);
     }
