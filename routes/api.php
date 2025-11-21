@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\LeagueController;
 use App\Http\Controllers\Api\MatchController;
 use App\Http\Controllers\Api\PlayerController;
@@ -54,3 +55,5 @@ Route::patch('match/{match}/halftime', [MatchController::class, 'halftime'])
 
 Route::patch('match/{match}/end', [MatchController::class, 'end'])
     ->name('leagues.matches.start');
+
+Route::get('dashboard', DashboardController::class)->name('api.dashboard');
