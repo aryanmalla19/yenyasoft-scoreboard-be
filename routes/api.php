@@ -38,22 +38,25 @@ Route::get('teams/{team}', [TeamController::class, 'show'])
     ->name('team.show');
 
 // Match
-Route::get('match/current', [MatchController::class, 'current'])
+Route::get('matches/current', [MatchController::class, 'current'])
     ->name('leagues.matches.current');
 
-Route::post('match/start', [MatchController::class, 'store'])
+Route::post('matches/start', [MatchController::class, 'store'])
     ->name('leagues.matches.start');
 
-Route::patch('match/{match}/goal', [MatchController::class, 'goal'])
+Route::patch('matches/{match}/goal', [MatchController::class, 'goal'])
     ->name('leagues.matches.start');
 
-Route::patch('match/{match}/foul', [MatchController::class, 'foul'])
+Route::patch('matches/{match}/foul', [MatchController::class, 'foul'])
     ->name('leagues.matches.start');
 
-Route::patch('match/{match}/halftime', [MatchController::class, 'halftime'])
+Route::patch('matches/{match}/halftime', [MatchController::class, 'halftime'])
     ->name('leagues.matches.start');
 
-Route::patch('match/{match}/end', [MatchController::class, 'end'])
+Route::patch('matches/{match}/end', [MatchController::class, 'end'])
     ->name('leagues.matches.start');
+
+Route::get('matches/{match}', [MatchController::class, 'show'])
+    ->name('matches.show');
 
 Route::get('dashboard', DashboardController::class)->name('api.dashboard');

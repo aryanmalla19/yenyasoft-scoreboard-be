@@ -16,6 +16,7 @@ class TeamResource extends JsonResource
     {
         return [
             'name' => $this->name,
+            'slug' => $this->slug,
             'logo' => !empty($this->logo) ? asset($this->logo) : asset('default_team_logo.png'),
             'total_wins' => $this->wins,
             'total_draws' => $this->draw,

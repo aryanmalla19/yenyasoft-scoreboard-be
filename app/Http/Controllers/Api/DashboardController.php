@@ -17,7 +17,8 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $liveMatches = MatchModal::whereIn('status', [MatchStatus::LIVE->value, MatchStatus::HALFTIME->value])
+        $liveMatches = MatchModal::with(['homeTeam', 'awayTeam'])
+            ->whereIn('status', [MatchStatus::LIVE->value, MatchStatus::HALFTIME->value])
             ->get();
         $upcomingMatches = MatchModal::where('status', MatchStatus::NOT_STARTED->value)
             ->get();

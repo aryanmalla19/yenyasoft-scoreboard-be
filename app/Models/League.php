@@ -32,6 +32,8 @@ class League extends Model
 
     protected static function boot(): void
     {
+        parent::boot();
+
         static::creating(function ($league){
             $league->slug = Str::slug($league->name, '-');
         });
@@ -43,7 +45,7 @@ class League extends Model
         });
     }
 
-    public function getRouteKey(): string
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }

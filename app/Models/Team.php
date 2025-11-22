@@ -22,6 +22,8 @@ class Team extends Model
 
     protected static function boot(): void
     {
+        parent::boot();
+
         static::creating(function ($team){
             $team->slug = Str::slug($team->name, '-');
         });
@@ -33,7 +35,7 @@ class Team extends Model
         });
     }
 
-    public function getRouteKey(): string
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }

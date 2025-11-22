@@ -15,6 +15,7 @@ class MatchResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'status' => $this->status,
             'halftime_duration' => $this->halftime_duration,
             'is_halftime' => $this->is_halftime,

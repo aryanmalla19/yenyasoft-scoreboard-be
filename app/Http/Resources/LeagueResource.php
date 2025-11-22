@@ -15,8 +15,8 @@ class LeagueResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
             'name' => $this->name,
+            'slug' => $this->slug,
             'logo' => !empty($this->logo) ? asset($this->logo) : asset('default_league_logo.png'),
             'description' => $this?->description ?? null,
             'duration_months' => $this->duration,
