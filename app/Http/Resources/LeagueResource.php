@@ -17,7 +17,7 @@ class LeagueResource extends JsonResource
         return [
             'name' => $this->name,
             'slug' => $this->slug,
-            'logo' => !empty($this->logo) ? asset($this->logo) : asset('default_league_logo.png'),
+            'logo' => !empty($this->logo) ? asset('storage/'.$this->logo) : asset('default_league_logo.png'),
             'description' => $this?->description ?? null,
             'duration_months' => $this->duration,
             'start_date' => $this->start_date->toDateString(),

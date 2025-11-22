@@ -9,12 +9,15 @@ use App\Models\Team;
 
 readonly class LeagueService
 {
-    public function __construct(protected TeamService $teamService)
+    public function __construct(
+        protected TeamService $teamService,
+        protected FileService $fileService,
+    )
     {}
 
     public function getAll()
     {
-        return League::simplePaginate(10);
+        return League::withCount(['matches', 'teams'])->simplePaginate(10);
     }
 
     public function activeLeagues()
@@ -23,8 +26,14 @@ readonly class LeagueService
             ->simplePaginate(10);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function create(array $data): League
     {
+        if(request()->hasFile('logo')){
+            $data['logo'] = $this->fileService->uploadFile('logo', 'images');
+        }
         $league = League::create($data);
 
         if($league->start >= now() && $league->end_date <= now()){
