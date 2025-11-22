@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
-            $table->string('status')->default('not_started');
+            $table->string('status')->default('not_started')->index();
             $table->integer('halftime_duration')->nullable();
             $table->boolean('is_halftime')->default(false);
             $table->timestamp('start_time');
