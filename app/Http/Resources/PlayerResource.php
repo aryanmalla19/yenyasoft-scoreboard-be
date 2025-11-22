@@ -15,10 +15,12 @@ class PlayerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'image' => !empty($this->image) ? asset('storage/'.$this->image) : asset('default_player_img.png'),
             'total_goals' => $this->total_goals,
             'total_fouls' => $this->total_fouls,
+            'team' => new TeamResource($this->whenLoaded('team')),
         ];
     }
 }

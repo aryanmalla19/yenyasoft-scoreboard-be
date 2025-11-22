@@ -9,9 +9,11 @@ use App\Models\Team;
 
 class PlayerService
 {
+    public function __construct(public FileService $fileService)
+    {}
     public function getAll()
     {
-        return Player::simplePaginate(10);
+        return Player::with('team')->simplePaginate(10);
     }
 
     // Only players NOT yet registered to any team in active league
@@ -20,13 +22,26 @@ class PlayerService
         return Player::whereNull('team_id')->simplePaginate(10);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function create(array $data): Player
     {
+        if(request()->hasFile('image')){
+            $data['image'] = $this->fileService->uploadFile('image', 'images');
+        }
         return Player::create($data);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function update(array $data, Player $player): bool
     {
+        if(request()->hasFile('image')){
+            $this->fileService->deleteFile(asset('storage/'.$player->image), 'images');
+            $data['image'] = $this->fileService->uploadFile('image', 'images');
+        }
         return $player->update($data);
     }
 

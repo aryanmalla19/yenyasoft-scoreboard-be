@@ -69,13 +69,26 @@ readonly class LeagueService
             ->simplePaginate(10);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function storeTeam(array $data, League $league): Team
     {
+        if(request()->hasFile('logo')){
+            $data['logo'] = $this->fileService->uploadFile('logo', 'images');
+        }
         return $league->teams()->create($data);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function updateTeam(array $data, Team $team): bool
     {
+        if(request()->hasFile('logo')){
+            $this->fileService->deleteFile(asset('storage/'.$team->logo), 'images');
+            $data['logo'] = $this->fileService->uploadFile('logo', 'images');
+        }
         return $team->update($data);
     }
 }
