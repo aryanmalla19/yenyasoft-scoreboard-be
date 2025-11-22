@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class League extends Model
 {
     protected $fillable = [
         'name',
+        'slug',
         'logo',
         'description',
         'duration',
@@ -19,6 +21,7 @@ class League extends Model
 
     protected $casts = [
         'name' => 'string',
+        'slug' => 'string',
         'logo' => 'string',
         'description' => 'string',
         'duration' => 'int',
@@ -26,6 +29,24 @@ class League extends Model
         'end_date' => 'date',
         'is_active' => 'bool',
     ];
+
+    protected static function boot(): void
+    {
+        static::creating(function ($league){
+            $league->slug = Str::slug($league->name, '-');
+        });
+
+        static::updating(function ($league){
+            if($league->isDirty('name')){
+                $league->slug = Str::slug($league->name, '-');
+            }
+        });
+    }
+
+    public function getRouteKey(): string
+    {
+        return 'slug';
+    }
 
     public function teams(): HasMany
     {

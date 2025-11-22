@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Team extends Model
 {
     protected $fillable = [
         'name',
+        'slug',
         'logo',
         'wins',
         'draws',
@@ -17,6 +19,24 @@ class Team extends Model
         'score',
         'league_id',
     ];
+
+    protected static function boot(): void
+    {
+        static::creating(function ($team){
+            $team->slug = Str::slug($team->name, '-');
+        });
+
+        static::updating(function ($team){
+            if ($team->isDirty('name')){
+                $team->slug = Str::slug($team->name, '-');
+            }
+        });
+    }
+
+    public function getRouteKey(): string
+    {
+        return 'slug';
+    }
 
     public function league(): BelongsTo
     {
