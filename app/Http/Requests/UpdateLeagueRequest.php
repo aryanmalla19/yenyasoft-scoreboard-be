@@ -29,7 +29,7 @@ class UpdateLeagueRequest extends FormRequest
                 'min:2',
                 Rule::unique('leagues', 'name')->ignore($this->route('league'))
             ],
-            'logo' => 'nullable|sometimes|file|mimes:jpg,png,webp,jpeg',
+            'logo' => 'nullable|sometimes|file|mimes:jpg,png,webp,jpeg|max:2048',
             'description' => 'nullable|sometimes|string',
             'duration' => 'required|int|min:1',
             'start_date' => 'required|date|before:end_date',

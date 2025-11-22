@@ -37,6 +37,9 @@ Route::put('teams/{team}', [TeamController::class, 'update'])
 Route::get('teams/{team}', [TeamController::class, 'show'])
     ->name('team.show');
 
+Route::delete('teams/{team}', [TeamController::class, 'destroy'])
+    ->name('team.destroy');
+
 // Match
 Route::get('matches/current', [MatchController::class, 'current'])
     ->name('leagues.matches.current');

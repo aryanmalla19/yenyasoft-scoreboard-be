@@ -16,7 +16,7 @@ class PlayerResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'logo' => !empty($this->logo) ? asset('storage/'.$this->logo) : asset('default_player_img.png'),
+            'image' => !empty($this->image) ? asset('storage/'.$this->image) : asset('default_player_img.png'),
             'total_goals' => $this->total_goals,
             'total_fouls' => $this->total_fouls,
         ];

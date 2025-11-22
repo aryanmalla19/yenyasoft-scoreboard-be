@@ -64,7 +64,8 @@ readonly class LeagueService
 
     public function getTeams(League $league)
     {
-        return Team::where('league_id', $league->id)
+        return Team::withCount(['players'])
+            ->where('league_id', $league->id)
             ->simplePaginate(10);
     }
 

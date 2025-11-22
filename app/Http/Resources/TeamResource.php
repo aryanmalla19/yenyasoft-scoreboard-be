@@ -15,11 +15,12 @@ class TeamResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
             'logo' => !empty($this->logo) ? asset('storage/'.$this->logo) : asset('default_team_logo.png'),
             'total_wins' => $this->wins,
-            'total_draws' => $this->draw,
+            'total_draws' => $this->draws,
             'total_losses' => $this->losses,
             'total_score' => $this->score,
             'players' => PlayerResource::collection($this->whenLoaded('players')),

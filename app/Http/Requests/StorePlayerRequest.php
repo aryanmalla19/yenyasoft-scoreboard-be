@@ -23,6 +23,7 @@ class StorePlayerRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
+            'image' => 'nullable|sometimes|file|mimes:jpg,png,webp,jpeg|max:2048',
             'team_id' => 'nullable|exists:teams,id',
         ];
     }
