@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\MatchEventType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
-class UpdateMatchRequest extends FormRequest
+class StoreEventRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +24,10 @@ class UpdateMatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required',
-            'halftime_duration' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'league_id' => 'required|exists:leagues,id',
-            'home_team_id' => 'required|exists:teams,id',
-            'away_team_id' => 'required|exists:teams,id',
+            'type' => ['required', new Enum(MatchEventType::class)],
+            'team_id' => 'nullable|sometimes|exists:teams,id',
+            'player_id' => 'nullable|sometimes|exists:players,id',
+            'value' => 'nullable|sometimes|min:0',
         ];
     }
 }

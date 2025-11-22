@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\StoreMatchRequest;
 use App\Http\Requests\UpdateMatchRequest;
 use App\Http\Resources\MatchResource;
@@ -41,16 +42,16 @@ class MatchController extends Controller
      */
     public function show(MatchModal $match)
     {
-        return new MatchResource($match->loadMissing(['events', 'homeTeam', 'awayTeam', 'league']));
+        return new MatchResource($match->loadMissing(['events.player', 'events.match', 'homeTeam', 'awayTeam', 'league']));
     }
 
-    public function goal(UpdateMatchRequest $request, MatchModal $match)
+    public function goal(StoreEventRequest $request, MatchModal $match)
     {
         $data = $request->validated();
         $this->matchService->goal($match, $data);
     }
 
-    public function foul(UpdateMatchRequest $request, MatchModal $match)
+    public function foul(StoreEventRequest $request, MatchModal $match)
     {
         $data = $request->validated();
         $this->matchService->foul($match, $data);
