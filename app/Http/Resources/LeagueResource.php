@@ -17,12 +17,14 @@ class LeagueResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'logo' => !empty($this?->logo) ? asset($this->logo) : null,
+            'logo' => !empty($this->logo) ? asset($this->logo) : asset('default_league_logo.png'),
             'description' => $this?->description ?? null,
             'duration_months' => $this->duration,
             'start_date' => $this->start_date->toDateString(),
             'end_date' => $this->end_date->toDateString(),
             'is_active' => $this->is_active,
+            'total_teams' => $this->teams_count,
+            'total_matches_played' => $this->matches_count,
             'teams' => TeamResource::collection($this->whenLoaded('teams')),
         ];
     }

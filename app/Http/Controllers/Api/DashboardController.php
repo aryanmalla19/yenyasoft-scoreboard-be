@@ -21,7 +21,7 @@ class DashboardController extends Controller
             ->get();
         $upcomingMatches = MatchModal::where('status', MatchStatus::NOT_STARTED->value)
             ->get();
-        $leagues = League::get();
+        $leagues = League::withCount(['teams', 'matches'])->get();
 
         return $this->customResponse([
             'live_matches' => MatchResource::collection($liveMatches),
