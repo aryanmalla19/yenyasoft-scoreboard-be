@@ -11,7 +11,7 @@ class StoreTeamRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,6 @@ class StoreTeamRequest extends FormRequest
         return [
             'name' => 'required|string',
             'logo' => 'nullable|sometimes|file|mimes:jpg,png,webp,jpeg|size:2048',
-            'league_id' => 'nullable|sometimes|exists:leagues,id',
         ];
     }
 }

@@ -46,7 +46,9 @@ class LeagueController extends Controller
      */
     public function show(League $league)
     {
-        return new LeagueResource($league->load('teams'));
+        $league->load(['matches', 'teams']);
+        $league->loadCount(['teams', 'matches']);
+        return new LeagueResource($league);
     }
 
     /**
