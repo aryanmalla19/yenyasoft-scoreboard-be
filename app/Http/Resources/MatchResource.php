@@ -19,7 +19,7 @@ class MatchResource extends JsonResource
             'status' => $this->status,
             'halftime_duration' => $this->halftime_duration,
             'is_halftime' => $this->is_halftime,
-            'start_time' => $this->start_time,
+            'start_time' => $this->start_time->diffForHumans(),
             'end_time' => $this->end_time,
             'home_score' => $this->home_score,
             'away_score' => $this->away_score,

@@ -40,24 +40,27 @@ Route::get('teams/{team}', [TeamController::class, 'show'])
 Route::delete('teams/{team}', [TeamController::class, 'destroy'])
     ->name('team.destroy');
 
-// Match
+// Matches
+Route::get('matches', [MatchController::class, 'index'])
+    ->name('matches.index');
+
 Route::get('matches/current', [MatchController::class, 'current'])
-    ->name('leagues.matches.current');
+    ->name('matches.current');
 
 Route::post('matches/start', [MatchController::class, 'store'])
-    ->name('leagues.matches.start');
+    ->name('matches.start');
 
 Route::patch('matches/{match}/goal', [MatchController::class, 'goal'])
-    ->name('leagues.matches.start');
+    ->name('matches.start');
 
 Route::patch('matches/{match}/foul', [MatchController::class, 'foul'])
-    ->name('leagues.matches.start');
+    ->name('matches.start');
 
 Route::patch('matches/{match}/halftime', [MatchController::class, 'halftime'])
-    ->name('leagues.matches.start');
+    ->name('matches.start');
 
 Route::patch('matches/{match}/end', [MatchController::class, 'end'])
-    ->name('leagues.matches.start');
+    ->name('matches.start');
 
 Route::get('matches/{match}', [MatchController::class, 'show'])
     ->name('matches.show');

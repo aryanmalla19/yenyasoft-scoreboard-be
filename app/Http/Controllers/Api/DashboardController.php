@@ -20,7 +20,8 @@ class DashboardController extends Controller
         $liveMatches = MatchModal::with(['homeTeam', 'awayTeam'])
             ->whereIn('status', [MatchStatus::LIVE->value, MatchStatus::HALFTIME->value])
             ->get();
-        $upcomingMatches = MatchModal::where('status', MatchStatus::NOT_STARTED->value)
+        $upcomingMatches = MatchModal::with(['awayTeam', 'homeTeam', 'league'])
+            ->where('status', MatchStatus::NOT_STARTED->value)
             ->get();
         $leagues = League::withCount(['teams', 'matches'])->get();
 

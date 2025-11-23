@@ -7,9 +7,15 @@ namespace App\Http\Services;
 use App\Enums\MatchEventType;
 use App\Enums\MatchStatus;
 use App\Models\MatchModal;
+use App\Models\Team;
 
 readonly class MatchService
 {
+    public function getAll()
+    {
+        return MatchModal::with(['homeTeam', 'awayTeam'])->simplePaginate(10);
+    }
+
     public function currentLiveGames()
     {
         return MatchModal::where('status', MatchStatus::LIVE->value)
@@ -18,7 +24,11 @@ readonly class MatchService
 
     public function store(array $data): MatchModal
     {
-        return MatchModal::create($data);
+        $league = Team::findOrFail($data['home_team_id'])->league;
+        return $league->matches()->create([
+            'status' => MatchStatus::LIVE->value,
+            ...$data
+        ]);
     }
 
     public function goal(MatchModal $match, array $data): MatchModal

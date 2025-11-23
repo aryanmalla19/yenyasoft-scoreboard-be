@@ -22,11 +22,8 @@ class UpdateMatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required',
-            'halftime_duration' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
-            'league_id' => 'required|exists:leagues,id',
             'home_team_id' => 'required|exists:teams,id',
             'away_team_id' => 'required|exists:teams,id',
         ];

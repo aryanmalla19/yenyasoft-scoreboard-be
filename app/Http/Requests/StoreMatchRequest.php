@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreMatchRequest extends FormRequest
 {
@@ -22,13 +23,17 @@ class StoreMatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required',
-            'halftime_duration' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
-            'league_id' => 'required|exists:leagues,id',
-            'home_team_id' => 'required|exists:teams,id',
+            'home_team_id' => 'required|exists:teams,id|different:away_team_id',
             'away_team_id' => 'required|exists:teams,id',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'home_team_id.different' => 'Home and Away Team must be different',
         ];
     }
 }

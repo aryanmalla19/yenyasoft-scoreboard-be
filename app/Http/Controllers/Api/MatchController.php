@@ -16,6 +16,12 @@ class MatchController extends Controller
     public function __construct(private readonly MatchService $matchService)
     {}
 
+    public function index()
+    {
+        $matches = $this->matchService->getAll();
+        return MatchResource::collection($matches);
+    }
+
     /**
      * Display a listing of the current matches.
      */
