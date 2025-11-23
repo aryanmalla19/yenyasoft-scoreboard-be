@@ -12,7 +12,6 @@ class MatchModal extends Model
 
     protected $fillable = [
         'status',
-        'halftime_duration',
         'is_halftime',
         'start_time',
         'end_time',
@@ -21,6 +20,18 @@ class MatchModal extends Model
         'league_id',
         'home_team_id',
         'away_team_id',
+    ];
+
+    protected $casts = [
+        'status' => 'string',
+        'is_halftime' => 'bool',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+        'home_score' => 'int',
+        'away_score' => 'int',
+        'league_id' => 'int',
+        'home_team_id' => 'int',
+        'away_team_id' => 'int',
     ];
 
     public function league(): BelongsTo
