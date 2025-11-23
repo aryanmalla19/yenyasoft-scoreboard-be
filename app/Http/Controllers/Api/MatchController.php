@@ -96,7 +96,7 @@ class MatchController extends Controller
     public function halftimeStart(MatchModal $match)
     {
         try {
-            $this->matchService->halftime($match);
+            $this->matchService->halftimeStart($match);
 
             return $this->successResponse("Halftime successfully started");
         }catch (\Exception $e){
@@ -107,7 +107,7 @@ class MatchController extends Controller
     public function halftimeEnd(MatchModal $match)
     {
         try {
-            $this->matchService->halftime($match);
+            $this->matchService->halftimeEnd($match);
 
             return $this->successResponse("Halftime started and Match Started");
         }catch (\Exception $e){
@@ -130,7 +130,7 @@ class MatchController extends Controller
     {
         try {
             $data = $request->validated();
-            $this->matchService->end($match);
+            $this->matchService->redCard($data, $match);
 
             return $this->successResponse("The Match has Ended");
         }catch (Exception $e){
@@ -142,7 +142,7 @@ class MatchController extends Controller
     {
         try {
             $data = $request->validated();
-            $this->matchService->end($match);
+            $this->matchService->yellowCard($data, $match);
 
             return $this->successResponse("The Match has Ended");
         }catch (Exception $e){

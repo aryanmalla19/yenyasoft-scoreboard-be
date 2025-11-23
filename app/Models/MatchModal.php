@@ -53,4 +53,5 @@ class MatchModal extends Model
     {
         return $this->hasMany(Event::class, 'match_id');
     }
+
 }
