@@ -10,6 +10,7 @@ use App\Http\Resources\MatchResource;
 use App\Http\Services\MatchService;
 use App\Models\MatchModal;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 
 class MatchController extends Controller
 {
@@ -18,8 +19,12 @@ class MatchController extends Controller
 
     public function index()
     {
-        $matches = $this->matchService->getAll();
-        return MatchResource::collection($matches);
+        try {
+            $matches = $this->matchService->getAll();
+            return MatchResource::collection($matches);
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -27,9 +32,13 @@ class MatchController extends Controller
      */
     public function current()
     {
-        $matches = $this->matchService->currentLiveGames();
+        try {
+            $matches = $this->matchService->currentLiveGames();
 
-        return MatchResource::collection($matches);
+            return MatchResource::collection($matches);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -37,10 +46,14 @@ class MatchController extends Controller
      */
     public function store(StoreMatchRequest $request)
     {
-        $data = $request->validated();
-        $match = $this->matchService->store($data);
+        try {
+            $data = $request->validated();
+            $match = $this->matchService->store($data);
 
-        return new MatchResource($match);
+            return new MatchResource($match);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -48,28 +61,92 @@ class MatchController extends Controller
      */
     public function show(MatchModal $match)
     {
-        return new MatchResource($match->loadMissing(['events.player', 'events.match', 'homeTeam', 'awayTeam', 'league']));
+        try {
+            $match->loadMissing(['events.player', 'events.match', 'homeTeam.players', 'awayTeam.players', 'league']);
+            return new MatchResource($match);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     public function goal(StoreEventRequest $request, MatchModal $match)
     {
-        $data = $request->validated();
-        $this->matchService->goal($match, $data);
+        try {
+            $data = $request->validated();
+            $this->matchService->goal($match, $data);
+
+            return $this->successResponse("Successfully scored a goal");
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     public function foul(StoreEventRequest $request, MatchModal $match)
     {
-        $data = $request->validated();
-        $this->matchService->foul($match, $data);
+        try{
+            $data = $request->validated();
+            $this->matchService->foul($match, $data);
+
+            return $this->successResponse("Successfully given a Foul");
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
-    public function halftime(MatchModal $match)
+    public function halftimeStart(MatchModal $match)
     {
-        $this->matchService->halftime($match);
+        try {
+            $this->matchService->halftime($match);
+
+            return $this->successResponse("Halftime successfully started");
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function halftimeEnd(MatchModal $match)
+    {
+        try {
+            $this->matchService->halftime($match);
+
+            return $this->successResponse("Halftime started and Match Started");
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     public function end(MatchModal $match)
     {
-        $this->matchService->end($match);
+        try {
+            $this->matchService->end($match);
+
+            return $this->successResponse("The Match has Ended");
+        }catch (Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function redCard(StoreEventRequest $request, MatchModal $match)
+    {
+        try {
+            $data = $request->validated();
+            $this->matchService->end($match);
+
+            return $this->successResponse("The Match has Ended");
+        }catch (Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function yellowCard(StoreEventRequest $request, MatchModal $match)
+    {
+        try {
+            $data = $request->validated();
+            $this->matchService->end($match);
+
+            return $this->successResponse("The Match has Ended");
+        }catch (Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 }

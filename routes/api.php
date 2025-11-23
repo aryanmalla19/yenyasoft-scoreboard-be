@@ -51,16 +51,25 @@ Route::post('matches/start', [MatchController::class, 'store'])
     ->name('matches.start');
 
 Route::patch('matches/{match}/goal', [MatchController::class, 'goal'])
-    ->name('matches.start');
+    ->name('matches.goal');
 
 Route::patch('matches/{match}/foul', [MatchController::class, 'foul'])
-    ->name('matches.start');
+    ->name('matches.foul');
 
-Route::patch('matches/{match}/halftime', [MatchController::class, 'halftime'])
-    ->name('matches.start');
+Route::patch('matches/{match}/halftime-start', [MatchController::class, 'halftimeStart'])
+    ->name('matches.halftime-start');
+
+Route::patch('matches/{match}/halftime-end', [MatchController::class, 'halftimeEnd'])
+    ->name('matches.halftime-end');
+
+Route::patch('matches/{match}/red-card', [MatchController::class, 'redCard'])
+    ->name('matches.red-card');
+
+Route::patch('matches/{match}/yellow-card', [MatchController::class, 'yellowCard'])
+    ->name('matches.yellow-card');
 
 Route::patch('matches/{match}/end', [MatchController::class, 'end'])
-    ->name('matches.start');
+    ->name('matches.end');
 
 Route::get('matches/{match}', [MatchController::class, 'show'])
     ->name('matches.show');
