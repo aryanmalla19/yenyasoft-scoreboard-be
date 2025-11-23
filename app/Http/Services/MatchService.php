@@ -11,6 +11,8 @@ use App\Events\GoalScored;
 use App\Events\HalfTimeStarted;
 use App\Events\MatchEnded;
 use App\Events\MatchStarted;
+use App\Events\RedCardCommitted;
+use App\Events\YellowCardCommitted;
 use App\Models\MatchModal;
 use App\Models\Player;
 use App\Models\Team;
@@ -120,7 +122,7 @@ readonly class MatchService
     public function end(MatchModal $match): MatchModal
     {
         $match->update([
-            'status' => MatchStatus::FINISHED,
+            'status' => MatchStatus::FINISHED->value,
         ]);
 
         $event = $match->events()->create([
@@ -139,11 +141,15 @@ readonly class MatchService
 
         $player->increment('total_fouls');
 
-
-        $match->events()->create([
+        $event = $match->events()->create([
             'type' => MatchEventType::RED_CARD->value,
+            'team_id' => $player->team_id,
+            'player_id' => $player->id,
             'league_id' => $match->league_id,
         ]);
+
+        broadcast(new RedCardCommitted($event));
+
         return $match;
     }
 
@@ -153,10 +159,15 @@ readonly class MatchService
 
         $player->increment('total_fouls');
 
-        $match->events()->create([
+        $event = $match->events()->create([
             'type' => MatchEventType::RED_CARD->value,
+            'team_id' => $player->team_id,
+            'player_id' => $player->id,
             'league_id' => $match->league_id,
         ]);
+
+        broadcast(new YellowCardCommitted($event));
+
         return $match;
     }
 }
