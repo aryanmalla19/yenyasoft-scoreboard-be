@@ -64,6 +64,8 @@ readonly class MatchService
             'player_id' => $data['player_id'],
         ]);
 
+        $event->load('match');
+
         broadcast(new GoalScored($event));
 
         return $match;
@@ -84,7 +86,6 @@ readonly class MatchService
         ]);
 
         broadcast(new FoulCommitted($event));
-
 
         return $match;
     }

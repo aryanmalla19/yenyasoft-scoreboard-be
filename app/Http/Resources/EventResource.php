@@ -21,6 +21,9 @@ class EventResource extends JsonResource
             'match' => new MatchResource($this->whenLoaded('match')),
             'team' => new TeamResource($this->whenLoaded('team')),
             'player' => new PlayerResource($this->whenLoaded('player')),
+            'event_by' => $this->match
+                ? ($this->team_id === $this->match->home_team_id ? 'home' : 'away')
+                : null,
         ];
     }
 }

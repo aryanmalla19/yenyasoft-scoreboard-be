@@ -23,10 +23,6 @@ class MatchResource extends JsonResource
             'end_time' => $this->end_time,
             'home_score' => $this->home_score,
             'away_score' => $this->away_score,
-            'event_by' => $this->when(
-                $this->relationLoaded('match'),
-                fn () => $this->team_id == $this->match->home_team_id ? 'home' : 'away'
-            ),
             'league' => new LeagueResource($this->whenLoaded('league')),
             'home_team' => new TeamResource($this->whenLoaded('homeTeam')),
             'away_team' => new TeamResource($this->whenLoaded('awayTeam')),
