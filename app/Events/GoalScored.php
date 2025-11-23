@@ -36,8 +36,9 @@ class GoalScored implements ShouldBroadcast
         return [
             'id' => $this->event->id,
             'type' => $this->event->type,
-            'team_id' => $this->event->team_id,
-            'player_id' => $this->event->player_id,
+            'team' => $this->event->team,
+            'player' => $this->event->player,
+            'live_time_minutes' => $this->event->match ? (int) $this->event->match->start_time->diffInMinutes($this->event->created_at) : null,
             'event_by' => $this->event->team_id === $this->event->match->home_team_id ? 'home' : 'away',
             'match_score' => [
                 'home' => $this->event->match->home_score,
