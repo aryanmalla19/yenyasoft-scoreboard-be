@@ -1,3 +1,5 @@
+# YenyaSoft Scoreboard Backend
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -7,53 +9,127 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About This Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This is the backend application for the YenyaSoft Scoreboard project, built with Laravel. It provides APIs for managing matches, players, teams, and leagues.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Before you begin, ensure you have the following installed:
 
-## Learning Laravel
+* PHP >= 8.1
+* Composer
+* MySQL or any other database supported by Laravel
+* Git
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Clone the repository**
 
-## Laravel Sponsors
+```bash
+git clone https://github.com/aryanmalla19/yenyasoft-scoreboard-be.git
+cd yenyasoft-scoreboard-be
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Install dependencies**
 
-### Premium Partners
+```bash
+composer install
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+3. **Setup environment file**
 
-## Contributing
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Generate application key**
 
-## Code of Conduct
+```bash
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Environment Variables
 
-## Security Vulnerabilities
+Update your `.env` with database, Reverb, Pusher, and Sanctum configurations:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database_name
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
 
-## License
+REVERB_HOST=localhost
+REVERB_APP_ID=
+REVERB_APP_KEY=
+REVERB_APP_SECRET=
+REVERB_DEFAULT=pusher
+REVERB_PORT=8080
+REVERB_SCHEME=http
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+BROADCAST_DRIVER=pusher
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=mt1
+
+SANCTUM_STATEFUL_DOMAINS=http://localhost:5173
+SESSION_DOMAIN=localhost
+```
+
+## Database Setup
+
+1. Create a new database in MySQL (or your preferred DB).
+2. Update `.env` with your database credentials.
+3. Run migrations and seeders
+
+```bash
+php artisan migrate --seed
+```
+
+> After running the seeders, you can log in as an admin using:
+>
+> * Email: `admin@admin.com`
+> * Password: `Password@123`
+
+## Running the Application
+
+Start the Laravel development server:
+
+```bash
+php artisan serve
+```
+
+By default, the server runs at `http://127.0.0.1:8000`.
+
+## Dependencies & Packages
+
+This project uses the following main packages:
+
+* `laravel/framework` - The core Laravel framework
+* `laravel/sanctum` - API authentication and session management for SPA
+* `barryvdh/laravel-cors` - Cross-Origin Resource Sharing support
+* `reverb/laravel` - Real-time WebSocket broadcasting with Reverb
+* Other packages as listed in `composer.json`
+
+## Reverb & Broadcasting
+
+This project uses Reverb for real-time event broadcasting. Ensure Reverb is running with the host, app ID, key, secret, and default driver configured in `.env`. Laravel broadcasting is configured using Pusher driver to handle WebSocket events.
+
+## Sanctum
+
+Sanctum is used for API authentication. Make sure your SPA frontend domain is added to `SANCTUM_STATEFUL_DOMAINS` and `SESSION_DOMAIN` is set correctly in `.env` for proper cookie-based authentication.
+
+## Seeders
+
+Seeders create default data for:
+
+* Admin
+
+Run seeders using:
+
+```bash
+php artisan db:seed
+```
