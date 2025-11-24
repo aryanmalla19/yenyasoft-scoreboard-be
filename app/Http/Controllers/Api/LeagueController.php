@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateLeagueRequest;
 use App\Http\Resources\LeagueResource;
 use App\Http\Services\LeagueService;
 use App\Models\League;
-use Illuminate\Http\Request;
 
 class LeagueController extends Controller
 {

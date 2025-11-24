@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\StoreMatchRequest;
-use App\Http\Requests\UpdateMatchRequest;
 use App\Http\Resources\MatchResource;
 use App\Http\Services\MatchService;
 use App\Models\MatchModal;
-use Illuminate\Http\Request;
-use Mockery\Exception;
 
 class MatchController extends Controller
 {
@@ -121,7 +118,7 @@ class MatchController extends Controller
             $this->matchService->end($match);
 
             return $this->successResponse("The Match has Ended");
-        }catch (Exception $e){
+        }catch (\Exception $e){
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -133,7 +130,7 @@ class MatchController extends Controller
             $this->matchService->redCard($data, $match);
 
             return $this->successResponse("The Match has Ended");
-        }catch (Exception $e){
+        }catch (\Exception $e){
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -145,7 +142,7 @@ class MatchController extends Controller
             $this->matchService->yellowCard($data, $match);
 
             return $this->successResponse("The Match has Ended");
-        }catch (Exception $e){
+        }catch (\Exception $e){
             return $this->errorResponse($e->getMessage());
         }
     }

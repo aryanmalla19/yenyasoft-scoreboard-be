@@ -9,7 +9,6 @@ use App\Http\Resources\TeamResource;
 use App\Http\Services\LeagueService;
 use App\Models\League;
 use App\Models\Team;
-use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {

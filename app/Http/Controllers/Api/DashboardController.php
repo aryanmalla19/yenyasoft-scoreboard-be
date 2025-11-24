@@ -9,7 +9,6 @@ use App\Http\Resources\MatchResource;
 use App\Models\League;
 use App\Models\MatchModal;
 use Illuminate\Http\Request;
-use Mockery\Exception;
 
 class DashboardController extends Controller
 {
@@ -32,7 +31,7 @@ class DashboardController extends Controller
                 'upcoming_matches' => MatchResource::collection($upcomingMatches),
                 'leagues' => LeagueResource::collection($leagues),
             ]);
-        }catch (Exception $e){
+        }catch (\Exception $e){
             return $this->errorResponse($e->getMessage());
         }
     }
