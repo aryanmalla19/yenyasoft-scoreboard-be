@@ -130,6 +130,15 @@ readonly class MatchService
             'league_id' => $match->league_id,
         ]);
 
+        if($match->home_score > $match->away_score){
+            $match->homeTeam->increment('wins');
+        }else if($match->away_score > $match->home_score){
+            $match->awayTeam->increment('wins');
+        }else{
+            $match->awayTeam->increment('draws');
+            $match->homeTeam->increment('draws');
+        }
+
         safe_broadcast(new MatchEnded($match, $event));
 
         return $match;

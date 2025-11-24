@@ -26,6 +26,7 @@ class LeagueResource extends JsonResource
             'total_teams' => $this->teams_count,
             'total_matches_played' => $this->matches_count,
             'teams' => TeamResource::collection($this->whenLoaded('teams')),
+            'matches' => MatchResource::collection($this->whenLoaded('matches')),
         ];
     }
 }
