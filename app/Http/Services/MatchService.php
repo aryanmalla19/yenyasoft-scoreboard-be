@@ -43,7 +43,7 @@ readonly class MatchService
             'league_id' => $league->id,
         ]);
 
-        broadcast(new MatchStarted($match, $event));
+        safe_broadcast(new MatchStarted($match, $event));
         return $match;
     }
 
@@ -68,7 +68,7 @@ readonly class MatchService
 
         $event->load('match');
 
-        broadcast(new GoalScored($event));
+        safe_broadcast(new GoalScored($event));
 
         return $match;
     }
@@ -87,7 +87,7 @@ readonly class MatchService
             'player_id' => $player->id,
         ]);
 
-        broadcast(new FoulCommitted($event));
+        safe_broadcast(new FoulCommitted($event));
 
         return $match;
     }
@@ -104,7 +104,7 @@ readonly class MatchService
             'league_id' => $match->league_id,
         ]);
 
-        broadcast(new HalfTimeStarted($match, $event));
+        safe_broadcast(new HalfTimeStarted($match, $event));
 
         return $match;
     }
@@ -130,7 +130,7 @@ readonly class MatchService
             'league_id' => $match->league_id,
         ]);
 
-        broadcast(new MatchEnded($match, $event));
+        safe_broadcast(new MatchEnded($match, $event));
 
         return $match;
     }
@@ -148,7 +148,7 @@ readonly class MatchService
             'league_id' => $match->league_id,
         ]);
 
-        broadcast(new RedCardCommitted($event));
+        safe_broadcast(new RedCardCommitted($event));
 
         return $match;
     }
@@ -166,7 +166,7 @@ readonly class MatchService
             'league_id' => $match->league_id,
         ]);
 
-        broadcast(new YellowCardCommitted($event));
+        safe_broadcast(new YellowCardCommitted($event));
 
         return $match;
     }

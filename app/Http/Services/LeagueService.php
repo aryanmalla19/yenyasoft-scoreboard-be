@@ -36,7 +36,7 @@ readonly class LeagueService
         }
         $league = League::create($data);
 
-        if($league->start >= now() && $league->end_date <= now()){
+        if($league->start <= now() && $league->end_date >= now()){
             $this->activate($league);
         }
 

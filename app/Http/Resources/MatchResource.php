@@ -16,7 +16,7 @@ class MatchResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'status' => $this->status,
+            'status' => ucfirst($this->status),
             'halftime_duration' => $this->halftime_duration,
             'is_halftime' => $this->is_halftime,
             'start_time' => $this->start_time->diffForHumans(),
