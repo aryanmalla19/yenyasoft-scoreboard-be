@@ -19,8 +19,12 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $players = $this->playerService->getAll();
-        return PlayerResource::collection($players);
+        try {
+            $players = $this->playerService->getAll();
+            return PlayerResource::collection($players);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -28,10 +32,14 @@ class PlayerController extends Controller
      */
     public function store(StorePlayerRequest $request)
     {
-        $data = $request->validated();
-        $player = $this->playerService->create($data);
+        try {
+            $data = $request->validated();
+            $player = $this->playerService->create($data);
 
-        return new PlayerResource($player);
+            return new PlayerResource($player);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -47,12 +55,15 @@ class PlayerController extends Controller
      */
     public function update(UpdatePlayerRequest $request, Player $player)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
 
-        $this->playerService->update($data, $player);
+            $this->playerService->update($data, $player);
 
-        return new PlayerResource($player->refresh());
-
+            return new PlayerResource($player->refresh());
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -60,12 +71,22 @@ class PlayerController extends Controller
      */
     public function destroy(Player $player)
     {
-        $player->delete();
+        try {
+            $player->delete();
+            return $this->successResponse("Successfully deleted player");
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     public function available()
     {
-        $players = $this->playerService->availablePlayers();
-        return PlayerResource::collection($players);
+        try {
+            $players = $this->playerService->availablePlayers();
+
+            return PlayerResource::collection($players);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 }

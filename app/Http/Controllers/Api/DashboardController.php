@@ -9,6 +9,7 @@ use App\Http\Resources\MatchResource;
 use App\Models\League;
 use App\Models\MatchModal;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 
 class DashboardController extends Controller
 {
@@ -17,18 +18,22 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $liveMatches = MatchModal::with(['homeTeam', 'awayTeam'])
-            ->whereIn('status', [MatchStatus::LIVE->value, MatchStatus::HALFTIME->value])
-            ->get();
-        $upcomingMatches = MatchModal::with(['awayTeam', 'homeTeam', 'league'])
-            ->where('status', MatchStatus::NOT_STARTED->value)
-            ->get();
-        $leagues = League::withCount(['teams', 'matches'])->get();
+        try {
+            $liveMatches = MatchModal::with(['homeTeam', 'awayTeam'])
+                ->whereIn('status', [MatchStatus::LIVE->value, MatchStatus::HALFTIME->value])
+                ->get();
+            $upcomingMatches = MatchModal::with(['awayTeam', 'homeTeam', 'league'])
+                ->where('status', MatchStatus::NOT_STARTED->value)
+                ->get();
+            $leagues = League::withCount(['teams', 'matches'])->get();
 
-        return $this->customResponse([
-            'live_matches' => MatchResource::collection($liveMatches),
-            'upcoming_matches' => MatchResource::collection($upcomingMatches),
-            'leagues' => LeagueResource::collection($leagues),
-        ]);
+            return $this->customResponse([
+                'live_matches' => MatchResource::collection($liveMatches),
+                'upcoming_matches' => MatchResource::collection($upcomingMatches),
+                'leagues' => LeagueResource::collection($leagues),
+            ]);
+        }catch (Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 }

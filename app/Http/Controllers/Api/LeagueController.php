@@ -19,8 +19,13 @@ class LeagueController extends Controller
      */
     public function index()
     {
-        $leagues = $this->leagueService->getAll();
-        return LeagueResource::collection($leagues);
+        try {
+            $leagues = $this->leagueService->getAll();
+
+            return LeagueResource::collection($leagues);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -34,10 +39,7 @@ class LeagueController extends Controller
 
             return new LeagueResource($league);
         }catch (\Exception $e){
-            return response()->json([
-                'message' => 'Something went wrong.',
-                'error' => $e->getMessage()
-            ], 500);
+           return $this->errorResponse($e->getMessage());
         }
     }
 
@@ -46,9 +48,14 @@ class LeagueController extends Controller
      */
     public function show(League $league)
     {
-        $league->load(['matches', 'teams']);
-        $league->loadCount(['teams', 'matches']);
-        return new LeagueResource($league);
+        try {
+            $league->load(['matches', 'teams']);
+            $league->loadCount(['teams', 'matches']);
+
+            return new LeagueResource($league);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -56,10 +63,14 @@ class LeagueController extends Controller
      */
     public function update(UpdateLeagueRequest $request, League $league)
     {
-        $data = $request->validated();
-        $this->leagueService->update($data, $league);
+        try {
+            $data = $request->validated();
+            $this->leagueService->update($data, $league);
 
-        return new LeagueResource($league->refresh());
+            return new LeagueResource($league->refresh());
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -67,33 +78,33 @@ class LeagueController extends Controller
      */
     public function destroy(League $league)
     {
-        $league->delete();
-        return response()->json([
-            'message' => 'Successfully deleted league',
-        ]);
+        try {
+            $league->delete();
+            return $this->successResponse("Successfully deleted league");
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     public function activate(League $league)
     {
-        $this->leagueService->activate($league);
-        return response()->json([
-            'message' => 'Successfully activated league',
-        ]);
-    }
-
-    public function deactivate(League $league)
-    {
-        $this->leagueService->deactivate($league);
-        return response()->json([
-            'message' => 'Successfully deactivated league',
-        ]);
+        try {
+            $this->leagueService->activate($league);
+            return $this->successResponse("Successfully activated league");
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     public function active()
     {
-        $leagues = $this->leagueService->activeLeagues();
+        try {
+            $leagues = $this->leagueService->activeLeagues();
 
-        return LeagueResource::collection($leagues);
+            return LeagueResource::collection($leagues);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
 }

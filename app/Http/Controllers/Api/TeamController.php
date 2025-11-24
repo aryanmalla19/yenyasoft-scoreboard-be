@@ -21,20 +21,29 @@ class TeamController extends Controller
      */
     public function index(League $league)
     {
-        $teams = $this->leagueService->getTeams($league);
+        try {
+            $teams = $this->leagueService->getTeams($league);
 
-        return TeamResource::collection($teams);
+            return TeamResource::collection($teams);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
      * Store a newly created resource in storage.
+     * @throws \Exception
      */
     public function store(StoreTeamRequest $request, League $league)
     {
-        $data = $request->validated();
-        $team = $this->leagueService->storeTeam($data, $league);
+        try {
+            $data = $request->validated();
+            $team = $this->leagueService->storeTeam($data, $league);
 
-        return new TeamResource($team);
+            return new TeamResource($team);
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -50,10 +59,14 @@ class TeamController extends Controller
      */
     public function update(UpdateTeamRequest $request, Team $team)
     {
-        $data = $request->validated();
-        $this->leagueService->updateTeam($data, $team);
+        try {
+            $data = $request->validated();
+            $this->leagueService->updateTeam($data, $team);
 
-        return new TeamResource($team->refresh());
+            return new TeamResource($team->refresh());
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     /**
@@ -61,6 +74,12 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        $team->delete();
+        try {
+            $team->delete();
+
+            return $this->successResponse("Successfully delete a team");
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
     }
 }
