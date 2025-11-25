@@ -21,7 +21,8 @@ readonly class MatchService
 {
     public function getAll()
     {
-        return MatchModal::with(['homeTeam', 'awayTeam'])->simplePaginate(10);
+        return MatchModal::orderByDesc('created_at')
+            ->with(['homeTeam', 'awayTeam'])->simplePaginate(10);
     }
 
     public function currentLiveGames()
@@ -34,7 +35,7 @@ readonly class MatchService
     {
         $league = Team::findOrFail($data['home_team_id'])->league;
         $match = $league->matches()->create([
-            'status' => MatchStatus::LIVE->value,
+            'status' => isset($data['is_live']) ? MatchStatus::LIVE->value : MatchStatus::NOT_STARTED->value,
             ...$data
         ]);
 
@@ -113,7 +114,7 @@ readonly class MatchService
     {
         $match->update([
             'is_halftime' => false,
-            'status' => MatchStatus::HALFTIME->value,
+            'status' => MatchStatus::LIVE->value,
         ]);
 
         return $match;
@@ -132,8 +133,10 @@ readonly class MatchService
 
         if($match->home_score > $match->away_score){
             $match->homeTeam->increment('wins');
+            $match->awayTeam->increment('losses');
         }else if($match->away_score > $match->home_score){
             $match->awayTeam->increment('wins');
+            $match->homeTeam->increment('losses');
         }else{
             $match->awayTeam->increment('draws');
             $match->homeTeam->increment('draws');

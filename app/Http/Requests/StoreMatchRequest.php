@@ -23,10 +23,11 @@ class StoreMatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_time' => 'required',
+            'start_time' => 'required|date',
             'end_time' => 'required',
             'home_team_id' => 'required|exists:teams,id|different:away_team_id',
             'away_team_id' => 'required|exists:teams,id',
+            'is_live' => 'nullable|sometimes',
         ];
     }
 
