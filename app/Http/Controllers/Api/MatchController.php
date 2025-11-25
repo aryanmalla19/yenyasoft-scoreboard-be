@@ -59,7 +59,7 @@ class MatchController extends Controller
     public function show(MatchModal $match)
     {
         try {
-            $match->loadMissing(['events.player', 'events.match', 'homeTeam.players', 'awayTeam.players', 'league']);
+            $match->loadMissing(['events.player', 'events.match', 'events.team', 'homeTeam.players', 'awayTeam.players', 'league']);
             return new MatchResource($match);
         }catch (\Exception $e){
             return $this->errorResponse($e->getMessage());

@@ -6,8 +6,10 @@ use App\Enums\MatchStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LeagueResource;
 use App\Http\Resources\MatchResource;
+use App\Http\Resources\PlayerResource;
 use App\Models\League;
 use App\Models\MatchModal;
+use App\Models\Player;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -26,10 +28,13 @@ class DashboardController extends Controller
                 ->get();
             $leagues = League::withCount(['teams', 'matches'])->get();
 
+            $availablePlayers = Player::whereNull('team_id')->get();
+
             return $this->customResponse([
                 'live_matches' => MatchResource::collection($liveMatches),
                 'upcoming_matches' => MatchResource::collection($upcomingMatches),
                 'leagues' => LeagueResource::collection($leagues),
+                'available_players' => PlayerResource::collection($availablePlayers),
             ]);
         }catch (\Exception $e){
             return $this->errorResponse($e->getMessage());

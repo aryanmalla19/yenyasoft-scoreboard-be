@@ -139,7 +139,7 @@ readonly class MatchService
             $match->homeTeam->increment('draws');
         }
 
-        safe_broadcast(new MatchEnded($match, $event));
+        safe_broadcast(new MatchEnded($match->loadMissing('awayTeam'), $event));
 
         return $match;
     }
@@ -169,7 +169,7 @@ readonly class MatchService
         $player->increment('total_fouls');
 
         $event = $match->events()->create([
-            'type' => MatchEventType::RED_CARD->value,
+            'type' => MatchEventType::YELLOW_CARD->value,
             'team_id' => $player->team_id,
             'player_id' => $player->id,
             'league_id' => $match->league_id,
