@@ -175,7 +175,7 @@ readonly class MatchService
             'league_id' => $match->league_id,
         ]);
 
-        safe_broadcast(new YellowCardCommitted($event));
+        safe_broadcast(new YellowCardCommitted($event->loadMissing(['player', 'team'])));
 
         return $match;
     }

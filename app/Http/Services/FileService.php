@@ -22,11 +22,11 @@ class FileService
     /**
      * @throws \Exception
      */
-    public function deleteFile(string $filePath, string $folderName='uploads'): bool
+    public function deleteFile(string $filePath): bool
     {
-        if(!File::exists(public_path($filePath))){
-            throw new \Exception('File does not exists');
+        if(!File::exists(public_path('/storage/'.$filePath))){
+            throw new \Exception(public_path('/'.$filePath));
         }
-        return File::delete(public_path($filePath));
+        return File::delete(public_path('/storage/'.$filePath));
     }
 }

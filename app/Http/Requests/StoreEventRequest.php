@@ -13,7 +13,7 @@ class StoreEventRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return !($this->match->isEnded() || $this->match->isHalftime());
     }
 
     /**
@@ -29,5 +29,12 @@ class StoreEventRequest extends FormRequest
             'player_id' => 'nullable|sometimes|exists:players,id',
             'value' => 'nullable|sometimes|min:0',
         ];
+    }
+
+    protected function failedAuthorization()
+    {
+        throw new \Illuminate\Auth\Access\AuthorizationException(
+            'Match is already ended or in halftime.'
+        );
     }
 }

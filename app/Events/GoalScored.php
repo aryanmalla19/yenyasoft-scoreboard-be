@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\PlayerResource;
 use App\Models\Event;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -37,7 +38,7 @@ class GoalScored implements ShouldBroadcast
             'id' => $this->event->id,
             'type' => $this->event->type,
             'team' => $this->event->team,
-            'player' => $this->event->player,
+            'player' => new PlayerResource($this->event->player),
             'live_time_minutes' => $this->event->match ? (int) $this->event->match->start_time->diffInMinutes($this->event->created_at) : null,
             'event_by' => $this->event->team_id === $this->event->match->home_team_id ? 'home' : 'away',
             'match_score' => [

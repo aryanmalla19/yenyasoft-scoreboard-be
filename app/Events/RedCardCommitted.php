@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\EventResource;
 use App\Models\Event;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -27,5 +28,10 @@ class RedCardCommitted implements ShouldBroadcast
     public function broadcastOn(): Channel
     {
         return new Channel('scoreboard');
+    }
+
+    public function broadcastWith(): array
+    {
+        return (new EventResource($this->event))->toArray(request());
     }
 }

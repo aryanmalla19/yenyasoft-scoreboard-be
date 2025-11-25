@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MatchStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -52,6 +53,16 @@ class MatchModal extends Model
     public function events(): HasMany
     {
         return $this->hasMany(Event::class, 'match_id');
+    }
+
+    public function isEnded(): bool
+    {
+        return $this->status === MatchStatus::FINISHED->value;
+    }
+
+    public function isHalftime(): bool
+    {
+        return $this->status === MatchStatus::HALFTIME->value;
     }
 
 }

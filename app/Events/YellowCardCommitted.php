@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\EventResource;
 use App\Models\Event;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -18,7 +19,9 @@ class YellowCardCommitted implements ShouldBroadcast
      * Create a new event instance.
      */
     public function __construct(public Event $event)
-    {}
+    {
+        $this->event->loadMissing(['team', 'player']);
+    }
 
     /**
      * Get the channels the event should broadcast on.
@@ -28,5 +31,10 @@ class YellowCardCommitted implements ShouldBroadcast
     public function broadcastOn(): Channel
     {
         return new Channel('scoreboard');
+    }
+
+    public function broadcastWith(): array
+    {
+        return (new EventResource($this->event))->toArray(request());
     }
 }

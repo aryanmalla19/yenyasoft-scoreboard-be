@@ -86,7 +86,7 @@ readonly class LeagueService
     public function updateTeam(array $data, Team $team): bool
     {
         if(request()->hasFile('logo')){
-            $this->fileService->deleteFile(asset('storage/'.$team->logo), 'images');
+            $this->fileService->deleteFile($team->logo);
             $data['logo'] = $this->fileService->uploadFile('logo', 'images');
         }
         return $team->update($data);
