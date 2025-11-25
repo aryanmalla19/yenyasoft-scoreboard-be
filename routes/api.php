@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminDashboard;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\LeagueController;
 use App\Http\Controllers\Api\MatchController;
@@ -32,9 +33,7 @@ Route::get('dashboard', DashboardController::class)->name('api.dashboard');
 
 
 
-
 Route::middleware('auth:sanctum')->group(function () {
-
     // Leagues
     Route::post('leagues', [LeagueController::class, 'store'])->name('leagues.store');
     Route::put('leagues/{league}', [LeagueController::class, 'update'])->name('leagues.update');
@@ -59,7 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('players', [PlayerController::class, 'store'])->name('players.store');
     Route::put('players/{player}', [PlayerController::class, 'update'])->name('players.update');
     Route::delete('players/{player}', [PlayerController::class, 'destroy'])->name('players.destroy');
+
+    // Admin Dashboard
+    Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
 });
-
-
-
